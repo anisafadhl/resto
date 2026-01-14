@@ -18,38 +18,31 @@ use Session;
 
 class HomeController extends Controller
 {
-    public function index(){
+public function index() 
+{
+    $menu = DB::table('products')->where('category', 'regular')->get();
+    
+    $breakfast = DB::table('products')
+                    ->where('category', 'special')
+                    ->where('session', '0')
+                    ->get();
 
-        $menu=DB::table('products')->where('catagory','regular')->get();
+    $lunch = DB::table('products')
+                    ->where('category', 'special')
+                    ->where('session', '1')
+                    ->get();
 
-        $breakfast=DB::table('products')->where('catagory','special')->where('session',0)->get();
-        $lunch=DB::table('products')->where('catagory','special')->where('session',1)->get();
-        $dinner=DB::table('products')->where('catagory','special')->where('session',2)->get();
+    $dinner = DB::table('products')
+                    ->where('category', 'special')
+                    ->where('session', '2')
+                    ->get();
 
-        $chefs=DB::table('chefs')->get();
+    $banners = DB::table('banners')->get();
+    $about_us = DB::table('about_us')->get();
+    $chefs = DB::table('chefs')->get();
 
-
-        if(Auth::user())
-        {
-
-            $cart_amount=DB::table('carts')->where('user_id',Auth::user()->id)->where('product_order','no')->count();
-
-
-        }
-        else
-        {
-
-            $cart_amount=0;
-
-        }
-
-        $about_us=DB::table('about_us')->get();
-        $banners=DB::table('banners')->get();
-
-
-
-        return view("home",compact('menu','breakfast','lunch','dinner','chefs','cart_amount','about_us','banners'));
-    }
+    return view("home", compact("menu", "breakfast", "lunch", "dinner", "banners", "about_us", "chefs"));
+}
 
     public function redirects(){
 
@@ -63,11 +56,11 @@ class HomeController extends Controller
         }
 
         
-        $menu=DB::table('products')->where('catagory','regular')->get();
+        $menu=DB::table('products')->where('category','regular')->get();
 
-        $breakfast=DB::table('products')->where('catagory','special')->where('session',0)->get();
-        $lunch=DB::table('products')->where('catagory','special')->where('session',1)->get();
-        $dinner=DB::table('products')->where('catagory','special')->where('session',2)->get();
+        $breakfast=DB::table('products')->where('category','special')->where('session',0)->get();
+        $lunch=DB::table('products')->where('category','special')->where('session',1)->get();
+        $dinner=DB::table('products')->where('category','special')->where('session',2)->get();
 
 
         $chefs=DB::table('chefs')->get();

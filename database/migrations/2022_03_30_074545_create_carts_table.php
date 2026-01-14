@@ -6,29 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCartsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->decimal("product_id", 6, 0);
-            $table->string("name", 255);
-            $table->decimal("price", 6, 2);
-            $table->decimal("quantity", 6, 0);
-            $table->decimal("subtotal", 6, 2);
+            
+            // Info Produk & User
+            $table->string('user_id')->nullable();
+            $table->string('product_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('price')->nullable();
+            $table->string('quantity')->nullable();
+            $table->string('image')->nullable();
+            
+            // Status Pesanan
+            $table->string('product_order')->default('no'); // 'no' = di keranjang, 'yes' = sudah dibeli
+            
+            // Info Transaksi (Ini yang dicari errornya)
+            $table->string('invoice_no')->nullable();      // <-- PENTING!
+            $table->string('payment_method')->nullable();  // Cash/Transfer
+            $table->string('payment_status')->nullable();  // Pending/Paid
+            
+            // Info Pengiriman
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('carts');
